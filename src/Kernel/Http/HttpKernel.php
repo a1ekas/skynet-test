@@ -9,19 +9,7 @@ use Exception;
 
 class HttpKernel implements HttpKernelInterface
 {
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var ControllerResolverInterface */
-    private $resolver;
-
-    public function __construct(
-        RouterInterface $router,
-        ControllerResolverInterface $resolver
-    ) {
-        $this->router = $router;
-        $this->resolver = $resolver;
-    }
+    public function __construct(private readonly RouterInterface $router, private readonly ControllerResolverInterface $resolver) {}
 
     /**
      * @inheritDoc
@@ -43,12 +31,6 @@ class HttpKernel implements HttpKernelInterface
         return $response;
     }
 
-    /**
-     * @param Exception $e
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
     private function handleException(Exception $e, Request $request): JsonResponse
     {
         return new JsonResponse(['error' => [

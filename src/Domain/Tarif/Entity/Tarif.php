@@ -9,160 +9,93 @@ use DateTime;
 
 class Tarif
 {
-    /** @var int */
-    private $id;
+    private int $id = 0;
 
-    /** @var string */
-    private $title;
+    private string $link;
 
-    /** @var float */
-    private $price;
+    private int $payPeriod = 0;
 
-    /** @var int */
-    private $speed;
+    private int $tarifGroupId = 0;
 
-    /** @var string */
-    private $link;
+    private TarifGroup $tarifGroup;
 
-    /** @var int */
-    private $payPeriod;
+    public function __construct(private string $title, private float $price, private int $speed) {}
 
-    /** @var int */
-    private $tarifGroupId;
-
-    /** @var TarifGroup */
-    private $tarifGroup;
-
-    public function __construct(string $title, float $price, int $speed)
-    {
-        $this->title = $title;
-        $this->price = $price;
-        $this->speed = $speed;
-    }
-
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @param float $price
-     */
     public function setPrice(float $price): void
     {
         $this->price = $price;
     }
 
-    /**
-     * @return int
-     */
     public function getSpeed(): int
     {
         return $this->speed;
     }
 
-    /**
-     * @param int $speed
-     */
     public function setSpeed(int $speed): void
     {
         $this->speed = $speed;
     }
 
-    /**
-     * @return string
-     */
     public function getLink(): string
     {
         return $this->link;
     }
 
-    /**
-     * @param string $link
-     */
     public function setLink(string $link): void
     {
         $this->link = $link;
     }
 
-    /**
-     * @return int
-     */
     public function getPayPeriod(): int
     {
         return $this->payPeriod;
     }
 
-    /**
-     * @param int $payPeriod
-     */
     public function setPayPeriod(int $payPeriod): void
     {
         $this->payPeriod = $payPeriod;
     }
 
-    /**
-     * @return int
-     */
     public function getTarifGroupId(): int
     {
         return $this->tarifGroupId;
     }
 
-    /**
-     * @param int $tarifGroupId
-     */
     public function setTarifGroupId(int $tarifGroupId): void
     {
         $this->tarifGroupId = $tarifGroupId;
     }
 
-    /**
-     * @return TarifGroup
-     */
     public function getTarifGroup(): TarifGroup
     {
         return $this->tarifGroup;
     }
 
-    /**
-     * @param TarifGroup $tarifGroup
-     */
     public function setTarifGroup(TarifGroup $tarifGroup): void
     {
         $this->tarifGroup = $tarifGroup;

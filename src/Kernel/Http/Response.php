@@ -8,13 +8,11 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
+use Stringable;
 use UnexpectedValueException;
 
-class Response
+class Response implements Stringable
 {
-    /** @var array */
-    public $headers;
-
     /**
      * Status codes translation table.
      *
@@ -110,9 +108,8 @@ class Response
     public function __construct(
         $content = '',
         $status = 200,
-        $headers = []
+        public $headers = []
     ) {
-        $this->headers = $headers;
         $this->setContent($content);
         $this->setStatusCode($status);
         $this->setProtocolVersion('1.0');
@@ -133,7 +130,7 @@ class Response
      *
      * @see prepare()
      */
-    public function __toString()
+    public function __toString(): string
     {
         return
             sprintf(
@@ -181,12 +178,8 @@ class Response
         foreach ($this->headers->getCookies() as $cookie) {
             setcookie(
                 $cookie->getName(),
-                $cookie->getValue(),
-                $cookie->getExpiresTime(),
-                $cookie->getPath(),
-                $cookie->getDomain(),
-                $cookie->isSecure(),
-                $cookie->isHttpOnly()
+                (string) $cookie->getValue(),
+                ['expires' => $cookie->getExpiresTime(), 'path' => $cookie->getPath(), 'domain' => $cookie->getDomain(), 'secure' => $cookie->isSecure(), 'httponly' => $cookie->isHttpOnly()]
             );
         }
 

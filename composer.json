@@ -40,17 +40,17 @@
         "process-timeout": 0
     },
     "scripts": {
-        "csfixer-lint": [
-            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./.rector",
-            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./config",
-            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./public",
-            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./src"
+        "csfixer:lint": [
+            "bin/php-cs-fixer fix --dry-run -vv --config=php-cs-fixer.php --cache-file=.php-cs-fix-src.cache"
         ],
-        "csfixer-fix": [
-            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./.rector",
-            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./config",
-            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./public",
-            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./src"
+        "csfixer:fix": [
+            "bin/php-cs-fixer fix -v --config=php-cs-fixer.php --cache-file=.php-cs-fix-src.cache"
+        ],
+        "rector:lint": [
+            "bin/rector process --ansi --dry-run --config=rector.php"
+        ],
+        "rector:fix": [
+            "bin/rector process --ansi --config=rector.php"
         ]
     }
 }

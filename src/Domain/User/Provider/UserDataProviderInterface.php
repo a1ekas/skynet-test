@@ -10,10 +10,6 @@ interface UserDataProviderInterface
 {
     /**
      * Fetches user object from database
-     *
-     * @param int $id
-     *
-     * @return User|null
      */
     public function fetchUserById(int $id): ?User;
 }

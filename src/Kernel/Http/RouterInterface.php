@@ -11,11 +11,7 @@ interface RouterInterface
     /**
      * Finds controller by request uri
      *
-     * @param Request $request
-     *
      * @throws Exception
-     *
-     * @return array
      */
     public function process(Request $request): array;
 }

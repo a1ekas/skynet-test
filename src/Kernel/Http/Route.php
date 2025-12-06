@@ -6,41 +6,23 @@ namespace App\Kernel\Http;
 
 class Route
 {
-    /** @var string */
-    private $pattern;
-
-    /** @var string */
-    private $method;
-
     /** @var callable|object|string */
     private $controller;
 
-    /** @var array */
-    private $requirements;
-
     public function __construct(
-        string $pattern,
-        string $method,
+        private readonly string $pattern,
+        private readonly string $method,
         $controller,
-        array $requirements = []
+        private readonly array $requirements = []
     ) {
-        $this->pattern = $pattern;
-        $this->method = $method;
         $this->controller = $controller;
-        $this->requirements = $requirements;
     }
 
-    /**
-     * @return string
-     */
     public function getPattern(): string
     {
         return $this->pattern;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->method;
@@ -54,9 +36,6 @@ class Route
         return $this->controller;
     }
 
-    /**
-     * @return array
-     */
     public function getRequirements(): array
     {
         return $this->requirements;

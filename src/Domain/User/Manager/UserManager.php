@@ -9,13 +9,7 @@ use App\Domain\User\Provider\UserDataProviderInterface;
 
 class UserManager implements UserManagerInterface
 {
-    /** @var UserDataProviderInterface */
-    private $userDataProvider;
-
-    public function __construct(UserDataProviderInterface $userDataProvider)
-    {
-        $this->userDataProvider = $userDataProvider;
-    }
+    public function __construct(private readonly UserDataProviderInterface $userDataProvider) {}
 
     /**
      * @inheritDoc

@@ -6,32 +6,22 @@ namespace App\Kernel\Http;
 
 class Request
 {
-    /** @var array */
-    private $query;
+    private bool|string|null $content = null;
 
-    /** @var array */
-    private $request;
+    private ?string $method = null;
 
-    /** @var array */
-    private $server;
+    private array $headers;
 
-    /** @var string */
-    private $content;
-
-    /** @var string */
-    private $method;
-
-    public function __construct($query = [], $request = [], $server = [])
+    /**
+     * @param mixed[] $query
+     * @param mixed[] $request
+     * @param mixed[] $server
+     */
+    public function __construct(private $query = [], private $request = [], private $server = [])
     {
-        $this->query = $query;
-        $this->request = $request;
-        $this->server = $server;
         $this->headers = $this->initHeaders();
     }
 
-    /**
-     * @return static
-     */
     public static function fromGlobals(): Request
     {
         return new static($_GET, $_POST, $_SERVER);
@@ -39,8 +29,6 @@ class Request
 
     /**
      * Returns the request body content.
-     *
-     * @return string
      */
     public function getContent(): string
     {
@@ -53,13 +41,11 @@ class Request
 
     /**
      * Returns request method
-     *
-     * @return string
      */
     public function getMethod(): string
     {
         if (null === $this->method) {
-            $this->method = strtoupper($this->server['REQUEST_METHOD']) ?: 'GET';
+            $this->method = strtoupper((string) $this->server['REQUEST_METHOD']) ?: 'GET';
         }
 
         return $this->method;
@@ -70,8 +56,6 @@ class Request
      *
      * @param string $key The header name
      * @param mixed $default The default value
-     *
-     * @return string|null
      */
     public function getHeader($key): ?string
     {
@@ -86,8 +70,6 @@ class Request
 
     /**
      * Returns the requested URI (path and query string).
-     *
-     * @return string
      */
     public function getRequestUri(): string
     {
@@ -96,8 +78,6 @@ class Request
 
     /**
      * Returns the requested URI (path without query string).
-     *
-     * @return string
      */
     public function getPathInfo(): string
     {
@@ -115,18 +95,14 @@ class Request
 
     /**
      * Checks request content type that is json
-     *
-     * @return bool
      */
     public function isJson(): bool
     {
-        return false !== strpos($this->getHeader('Accept'), 'application/json');
+        return str_contains((string) $this->getHeader('Accept'), 'application/json');
     }
 
     /**
      * Find and save http header
-     *
-     * @return array
      */
     private function initHeaders(): array
     {
@@ -134,8 +110,8 @@ class Request
         $contentHeaders = ['CONTENT_LENGTH' => true, 'CONTENT_MD5' => true, 'CONTENT_TYPE' => true];
 
         foreach ($this->server as $key => $value) {
-            if (0 === strpos($key, 'HTTP_')) {
-                $headers[strtr(strtolower(substr($key, 5)), '_', '-')] = $value;
+            if (str_starts_with((string) $key, 'HTTP_')) {
+                $headers[strtr(strtolower(substr((string) $key, 5)), '_', '-')] = $value;
             } elseif (isset($contentHeaders[$key])) {
                 $headers[strtr(strtolower($key), '_', '-')] = $value;
             }

@@ -10,17 +10,7 @@ use PDO;
 
 class UserDataProvider implements UserDataProviderInterface
 {
-    /** @var PDO */
-    private $db;
-
-    /** @var UserMapperInterface */
-    private $userMapper;
-
-    public function __construct(PDO $db, UserMapperInterface $userMapper)
-    {
-        $this->db = $db;
-        $this->userMapper = $userMapper;
-    }
+    public function __construct(private readonly PDO $db, private readonly UserMapperInterface $userMapper) {}
 
     /**
      * @inheritDoc

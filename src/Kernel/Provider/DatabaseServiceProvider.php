@@ -23,11 +23,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         };
     }
 
-    /**
-     * @param array $params
-     *
-     * @return string
-     */
     protected function constructPdoDsn(array $params): string
     {
         $dsn = 'mysql:';

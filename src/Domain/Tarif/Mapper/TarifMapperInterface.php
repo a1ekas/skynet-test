@@ -12,11 +12,7 @@ interface TarifMapperInterface
     /**
      * Converts database raw data to object
      *
-     * @param array $rawData
-     *
      * @throws Exception
-     *
-     * @return Tarif
      */
     public function mapToObject(array $rawData): Tarif;
 }

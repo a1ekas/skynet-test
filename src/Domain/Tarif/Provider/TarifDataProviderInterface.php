@@ -13,18 +13,11 @@ interface TarifDataProviderInterface
 {
     /**
      * Fetch tarif by user and service
-     *
-     * @param User $user
-     * @param Service $service
-     *
-     * @return Tarif|null
      */
     public function fetchByUserAndService(User $user, Service $service): ?Tarif;
 
     /**
      * Fetch tarif group by group id
-     *
-     * @param int $groupId
      *
      * @return Generator|Tarif[]
      */
@@ -32,10 +25,6 @@ interface TarifDataProviderInterface
 
     /**
      * Fetch tarif by id
-     *
-     * @param int $id
-     *
-     * @return Tarif|null
      */
     public function fetchById(int $id): ?Tarif;
 }

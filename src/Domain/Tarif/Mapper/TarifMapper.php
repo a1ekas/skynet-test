@@ -25,7 +25,7 @@ class TarifMapper implements TarifMapperInterface
         $this->assertKeyExists('link', $rawData);
 
         $tarif = new Tarif(
-            iconv('CP1251', 'UTF-8', $rawData['title']),
+            iconv('CP1251', 'UTF-8', (string) $rawData['title']),
             (float) $rawData['price'],
             (int) $rawData['speed']
         );

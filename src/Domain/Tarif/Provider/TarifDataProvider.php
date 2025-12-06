@@ -14,17 +14,7 @@ use PDO;
 
 class TarifDataProvider implements TarifDataProviderInterface
 {
-    /** @var PDO */
-    private $db;
-
-    /** @var TarifMapperInterface */
-    private $tarifMapper;
-
-    public function __construct(PDO $db, TarifMapperInterface $tarifMapper)
-    {
-        $this->db = $db;
-        $this->tarifMapper = $tarifMapper;
-    }
+    public function __construct(private readonly PDO $db, private readonly TarifMapperInterface $tarifMapper) {}
 
     /**
      * @inheritDoc
@@ -97,9 +87,6 @@ class TarifDataProvider implements TarifDataProviderInterface
         return $tarif;
     }
 
-    /**
-     * @param Tarif $tarif
-     */
     private function addTarifGroup(Tarif $tarif): void
     {
         $group = $this->fetchGroupByGroupId($tarif->getTarifGroupId());

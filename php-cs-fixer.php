@@ -71,7 +71,6 @@ return (new Config())
     ->setRules($rules)
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->in(__DIR__ . '/.rector')
             ->in(__DIR__ . '/config')
             ->in(__DIR__ . '/public')
             ->in(__DIR__ . '/src')

@@ -10,8 +10,6 @@ interface ServiceProviderInterface
 {
     /**
      * Register services in app container
-     *
-     * @param Application $app
      */
     public function register(Application $app): void;
 }

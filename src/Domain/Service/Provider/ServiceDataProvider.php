@@ -11,17 +11,7 @@ use PDO;
 
 class ServiceDataProvider implements ServiceDataProviderInterface
 {
-    /** @var PDO */
-    private $db;
-
-    /** @var ServiceMapperInterface */
-    private $serviceMapper;
-
-    public function __construct(PDO $db, ServiceMapperInterface $serviceMapper)
-    {
-        $this->db = $db;
-        $this->serviceMapper = $serviceMapper;
-    }
+    public function __construct(private readonly PDO $db, private readonly ServiceMapperInterface $serviceMapper) {}
 
     /**
      * @inheritDoc

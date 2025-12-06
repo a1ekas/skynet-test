@@ -77,8 +77,6 @@ class Application implements ArrayAccess
 
     /**
      * Registers a service provider.
-     *
-     * @param ServiceProviderInterface $provider
      */
     public function register(ServiceProviderInterface $provider)
     {

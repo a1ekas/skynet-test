@@ -10,10 +10,6 @@ interface UserManagerInterface
 {
     /**
      * Returns user by id
-     *
-     * @param int $id
-     *
-     * @return User|null
      */
     public function getUserById(int $id): ?User;
 }

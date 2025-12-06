@@ -10,13 +10,10 @@ use Exception;
 
 class UrlMatcher implements UrlMatcherInterface
 {
-    /** @var Route[] */
-    private $routes;
-
-    public function __construct(array $routes = [])
-    {
-        $this->routes = $routes;
-    }
+    public function __construct(
+        /** @var Route[] */
+        private array $routes = []
+    ) {}
 
     /**
      * @inheritDoc
@@ -83,12 +80,10 @@ class UrlMatcher implements UrlMatcherInterface
      *
      * @param $path
      * @param $params
-     *
-     * @return string
      */
     private function createRegex($path, $params): string
     {
-        $regex = addcslashes($path, '.\+*?[^]$=!<>|:-#');
+        $regex = addcslashes((string) $path, '.\+*?[^]$=!<>|:-#');
         $regex = str_replace(['(', ')'], ['(?:', ')?'], $regex);
         $regex = preg_replace_callback(
             '/{(\w+)}/',

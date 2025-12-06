@@ -8,13 +8,7 @@ use App\Kernel\Http\Service\UrlMatcherInterface;
 
 class Router implements RouterInterface
 {
-    /** @var UrlMatcherInterface */
-    private $urlMatcher;
-
-    public function __construct(UrlMatcherInterface $urlMatcher)
-    {
-        $this->urlMatcher = $urlMatcher;
-    }
+    public function __construct(private readonly UrlMatcherInterface $urlMatcher) {}
 
     /**
      * @inheritDoc

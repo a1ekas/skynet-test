@@ -11,13 +11,7 @@ use InvalidArgumentException;
 
 class ControllerResolver implements ControllerResolverInterface
 {
-    /** @var array */
-    private $controllersCollection;
-
-    public function __construct(array $controllersCollection = [])
-    {
-        $this->controllersCollection = $controllersCollection;
-    }
+    public function __construct(private array $controllersCollection = []) {}
 
     /**
      * @inheritDoc
@@ -38,14 +32,14 @@ class ControllerResolver implements ControllerResolverInterface
             throw new InvalidArgumentException(
                 sprintf(
                     'Controller "%s" for URI "%s" is not callable.',
-                    get_class($controller),
+                    $controller::class,
                     $request->getPathInfo()
                 ),
                 500
             );
         }
 
-        if (false === strpos($controller, ':')) {
+        if (!str_contains($controller, ':')) {
             if (class_exists($controller)
                 && method_exists($controller, '__invoke')
             ) {
@@ -74,7 +68,7 @@ class ControllerResolver implements ControllerResolverInterface
      */
     private function createController(string $controller): array
     {
-        if (false === strpos($controller, '::')) {
+        if (!str_contains($controller, '::')) {
             throw new InvalidArgumentException(
                 sprintf('Unable to find controller "%s".', $controller),
                 500

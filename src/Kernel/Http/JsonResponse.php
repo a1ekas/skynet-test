@@ -77,16 +77,16 @@ class JsonResponse
     /** @var string */
     private $data;
 
-    /** @var int */
-    private $responseCode;
-
     /** @var string */
     private $statusText;
 
-    /** @var string */
-    private $version = '1.1';
+    private string $version = '1.1';
 
-    public function __construct($data = null, $responseCode = 200)
+    /**
+     * @param int $responseCode
+     * @param mixed|null $data
+     */
+    public function __construct($data = null, private $responseCode = 200)
     {
         if (null === $data) {
             $data = [];
@@ -96,8 +96,7 @@ class JsonResponse
             $data,
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
-        $this->responseCode = $responseCode;
-        $this->statusText = self::$statusTexts[$responseCode];
+        $this->statusText = self::$statusTexts[$this->responseCode];
     }
 
     /**

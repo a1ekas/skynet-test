@@ -11,12 +11,7 @@ use Exception;
 interface ControllerResolverInterface
 {
     /**
-     * @param Route $route
-     * @param Request $request
-     *
      * @throws Exception
-     *
-     * @return callable
      */
     public function getController(Route $route, Request $request): callable;
 }

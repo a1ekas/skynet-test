@@ -12,11 +12,7 @@ interface ServiceMapperInterface
     /**
      * Converts raw data from database to service object
      *
-     * @param array $rawData
-     *
      * @throws Exception
-     *
-     * @return Service
      */
     public function mapToObject(array $rawData): Service;
 }

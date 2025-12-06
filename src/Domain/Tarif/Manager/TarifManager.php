@@ -11,13 +11,7 @@ use App\Domain\User\Entity\User;
 
 class TarifManager implements TarifManagerInterface
 {
-    /** @var TarifDataProviderInterface */
-    private $tarifDataProvider;
-
-    public function __construct(TarifDataProviderInterface $tarifDataProvider)
-    {
-        $this->tarifDataProvider = $tarifDataProvider;
-    }
+    public function __construct(private readonly TarifDataProviderInterface $tarifDataProvider) {}
 
     /**
      * @inheritDoc

@@ -13,13 +13,7 @@ use DateTime;
 
 class ServiceManager implements ServiceManagerInterface
 {
-    /** @var ServiceDataProviderInterface */
-    private $serviceDataProvider;
-
-    public function __construct(ServiceDataProviderInterface $serviceDataProvider)
-    {
-        $this->serviceDataProvider = $serviceDataProvider;
-    }
+    public function __construct(private readonly ServiceDataProviderInterface $serviceDataProvider) {}
 
     /**
      * @inheritDoc

@@ -9,8 +9,6 @@ use Exception;
 trait AssertableBehavior
 {
     /**
-     * @param string $key
-     *
      * @throws Exception
      */
     public function assertKeyExists(string $key, array $data): void

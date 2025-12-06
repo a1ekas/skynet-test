@@ -6,29 +6,19 @@ namespace App\Domain\Tarif\Entity;
 
 class TarifGroup
 {
-    /** @var int */
-    private $id;
-
     /** @var Tarif[] */
-    private $tarifs;
+    private array $tarifs;
 
-    public function __construct(int $id)
+    public function __construct(private int $id)
     {
-        $this->id = $id;
         $this->tarifs = [];
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
@@ -50,9 +40,6 @@ class TarifGroup
         $this->tarifs = $tarifs;
     }
 
-    /**
-     * @param Tarif $tarif
-     */
     public function addTarif(Tarif $tarif): void
     {
         $this->tarifs[] = $tarif;

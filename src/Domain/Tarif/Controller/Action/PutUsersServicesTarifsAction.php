@@ -13,32 +13,8 @@ use Exception;
 
 class PutUsersServicesTarifsAction
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    public function __construct(private readonly UserManagerInterface $userManager, private readonly ServiceManagerInterface $serviceManager, private readonly TarifManagerInterface $tarifManager) {}
 
-    /** @var ServiceManagerInterface */
-    private $serviceManager;
-
-    /** @var TarifManagerInterface */
-    private $tarifManager;
-
-    public function __construct(
-        UserManagerInterface $userManager,
-        ServiceManagerInterface $serviceManager,
-        TarifManagerInterface $tarifManager
-    ) {
-        $this->userManager = $userManager;
-        $this->serviceManager = $serviceManager;
-        $this->tarifManager = $tarifManager;
-    }
-
-    /**
-     * @param Request $request
-     * @param int $userId
-     * @param int $serviceId
-     *
-     * @return JsonResponse
-     */
     public function __invoke(
         Request $request,
         int $userId,
