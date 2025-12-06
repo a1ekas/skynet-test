@@ -1,8 +1,9 @@
 # Как запускать и тестировать
 1. Разместить в `<project_dir>/config/db/` файл `db_cfg.php` с настройками подключения к базе данных
-2. Выполнить `cd <project_dir>/public`
-3. Запустить встроенный в php сервер `php -S 127.0.0.1:8080`
-4. Выполнять запросы: `GET` `curl -i -H "Accept: application/json" http://127.0.0.1:8080/users/1/services/1/tarifs`;
+1. Выполнить сборку докер-образа: `make docker-build`
+1. Установить зависимости: `make composer-install`
+1. Запустить докер-контейнер: `make run`
+1. Выполнять запросы: `GET` `curl -i -H "Accept: application/json" http://127.0.0.1:8080/users/1/services/1/tarifs`;
 `PUT` `curl -X PUT http://127.0.0.1:8080/users/1/services/1/tarifs -H "Accept: application/json" -H "Content-Type: application/json" -d '{"tarif_id": 1}'`
 
 # Тестовое задание
