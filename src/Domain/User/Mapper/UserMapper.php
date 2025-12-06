@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\User\Mapper;
-
 
 use App\Domain\Behavior\AssertableBehavior;
 use App\Domain\User\Entity\User;
@@ -24,7 +24,7 @@ class UserMapper implements UserMapperInterface
         $user->setLogin($rawData['login']);
 
         if (array_key_exists('ID', $rawData)) {
-            $user->setId((int)$rawData['ID']);
+            $user->setId((int) $rawData['ID']);
         }
 
         return $user;

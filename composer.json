@@ -38,5 +38,19 @@
             "infection/extension-installer": true
         },
         "process-timeout": 0
+    },
+    "scripts": {
+        "csfixer-lint": [
+            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./.rector",
+            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./config",
+            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./public",
+            "bin/php-cs-fixer fix --dry-run -vv --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./src"
+        ],
+        "csfixer-fix": [
+            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./.rector",
+            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./config",
+            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./public",
+            "bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --cache-file=.php-cs-fix-src.cache ./src"
+        ]
     }
 }

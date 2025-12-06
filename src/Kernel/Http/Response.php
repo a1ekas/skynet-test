@@ -1,47 +1,26 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
+use DateTime;
+use DateTimeZone;
+use Exception;
+use InvalidArgumentException;
+use UnexpectedValueException;
 
 class Response
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $headers;
-
-    /**
-     * @var string
-     */
-    protected $content;
-
-    /**
-     * @var string
-     */
-    protected $version;
-
-    /**
-     * @var int
-     */
-    protected $statusCode;
-
-    /**
-     * @var string
-     */
-    protected $statusText;
-
-    /**
-     * @var string
-     */
-    protected $charset;
 
     /**
      * Status codes translation table.
      *
      * @var array
      */
-    public static $statusTexts = array(
+    public static $statusTexts = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
@@ -102,20 +81,36 @@ class Response
         508 => 'Loop Detected',
         510 => 'Not Extended',
         511 => 'Network Authentication Required',
-    );
+    ];
 
+    /** @var string */
+    protected $content;
+
+    /** @var string */
+    protected $version;
+
+    /** @var int */
+    protected $statusCode;
+
+    /** @var string */
+    protected $statusText;
+
+    /** @var string */
+    protected $charset;
 
     /**
      * Response constructor.
+     *
      * @param string $content
      * @param int $status
      * @param array $headers
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function __construct(
         $content = '',
         $status = 200,
-        $headers = array()
+        $headers = []
     ) {
         $this->headers = $headers;
         $this->setContent($content);
@@ -123,7 +118,7 @@ class Response
         $this->setProtocolVersion('1.0');
 
         if (!isset($this->headers['Date'])) {
-            $this->setDate(new \DateTime(null, new \DateTimeZone('UTC')));
+            $this->setDate(new DateTime(null, new DateTimeZone('UTC')));
         }
     }
 
@@ -146,11 +141,10 @@ class Response
                 $this->version,
                 $this->statusCode,
                 $this->statusText
-            ) . "\r\n" .
-            $this->headers . "\r\n" .
-            $this->getContent();
+            ) . "\r\n"
+            . $this->headers . "\r\n"
+            . $this->getContent();
     }
-
 
     /**
      * Sends HTTP headers.
@@ -233,18 +227,18 @@ class Response
      *
      * @param mixed $content Content that can be cast to string
      *
-     * @return Response
+     * @throws UnexpectedValueException
      *
-     * @throws \UnexpectedValueException
+     * @return Response
      *
      * @api
      */
     public function setContent($content)
     {
         if (null !== $content && !is_string($content) && !is_numeric(
-                $content
-            ) && !is_callable(array($content, '__toString'))) {
-            throw new \UnexpectedValueException(
+            $content
+        ) && !is_callable([$content, '__toString'])) {
+            throw new UnexpectedValueException(
                 sprintf(
                     'The Response content must be a string or object implementing __toString(), "%s" given.',
                     gettype($content)
@@ -252,7 +246,7 @@ class Response
             );
         }
 
-        $this->content = (string)$content;
+        $this->content = (string) $content;
 
         return $this;
     }
@@ -292,25 +286,25 @@ class Response
      * @param mixed $text HTTP status text
      *
      * If the status text is null it will be automatically populated for the known
-     * status codes and left empty otherwise.
+     * status codes and left empty otherwise
+     *
+     * @throws InvalidArgumentException When the HTTP status code is not valid
      *
      * @return Response
-     *
-     * @throws \InvalidArgumentException When the HTTP status code is not valid
      *
      * @api
      */
     public function setStatusCode($code, $text = null)
     {
-        $this->statusCode = $code = (int)$code;
+        $this->statusCode = $code = (int) $code;
         if ($this->isInvalid()) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('The HTTP status code "%s" is not valid.', $code)
             );
         }
 
         if (null === $text) {
-            $this->statusText = isset(self::$statusTexts[$code]) ? self::$statusTexts[$code] : '';
+            $this->statusText = self::$statusTexts[$code] ?? '';
 
             return $this;
         }
@@ -329,15 +323,15 @@ class Response
     /**
      * Sets the Date header.
      *
-     * @param \DateTime $date A \DateTime instance
+     * @param DateTime $date A \DateTime instance
      *
      * @return Response
      *
      * @api
      */
-    public function setDate(\DateTime $date)
+    public function setDate(DateTime $date)
     {
-        $date->setTimezone(new \DateTimeZone('UTC'));
+        $date->setTimezone(new DateTimeZone('UTC'));
         $this->headers['Date'] = $date->format('D, d M Y H:i:s') . ' GMT';
 
         return $this;

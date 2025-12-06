@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
+use Exception;
 
 interface RouterInterface
 {
@@ -10,8 +12,10 @@ interface RouterInterface
      * Finds controller by request uri
      *
      * @param Request $request
+     *
+     * @throws Exception
+     *
      * @return array
-     * @throws \Exception
      */
     public function process(Request $request): array;
 }

@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
-
 class User
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $firstName;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $lastName;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $login;
 
     public function __construct(string $firstName, string $lastName)

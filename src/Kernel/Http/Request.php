@@ -1,30 +1,24 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
-
 class Request
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $query;
-    /**
-     * @var array
-     */
+
+    /** @var array */
     private $request;
-    /**
-     * @var array
-     */
+
+    /** @var array */
     private $server;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $content;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $method;
 
     public function __construct($query = [], $request = [], $server = [])
@@ -45,6 +39,7 @@ class Request
 
     /**
      * Returns the request body content.
+     *
      * @return string
      */
     public function getContent(): string
@@ -58,6 +53,7 @@ class Request
 
     /**
      * Returns request method
+     *
      * @return string
      */
     public function getMethod(): string
@@ -72,7 +68,7 @@ class Request
     /**
      * Returns a header value by name.
      *
-     * @param string  $key     The header name
+     * @param string $key The header name
      * @param mixed $default The default value
      *
      * @return string|null
@@ -90,6 +86,7 @@ class Request
 
     /**
      * Returns the requested URI (path and query string).
+     *
      * @return string
      */
     public function getRequestUri(): string
@@ -99,6 +96,7 @@ class Request
 
     /**
      * Returns the requested URI (path without query string).
+     *
      * @return string
      */
     public function getPathInfo(): string
@@ -117,6 +115,7 @@ class Request
 
     /**
      * Checks request content type that is json
+     *
      * @return bool
      */
     public function isJson(): bool
@@ -137,9 +136,7 @@ class Request
         foreach ($this->server as $key => $value) {
             if (0 === strpos($key, 'HTTP_')) {
                 $headers[strtr(strtolower(substr($key, 5)), '_', '-')] = $value;
-            }
-
-            elseif (isset($contentHeaders[$key])) {
+            } elseif (isset($contentHeaders[$key])) {
                 $headers[strtr(strtolower($key), '_', '-')] = $value;
             }
         }

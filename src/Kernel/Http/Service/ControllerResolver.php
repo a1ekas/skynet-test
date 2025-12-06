@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http\Service;
 
-
 use App\Kernel\Http\Request;
 use App\Kernel\Http\Route;
+use Exception;
+use InvalidArgumentException;
 
 class ControllerResolver implements ControllerResolverInterface
 {
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $controllersCollection;
 
     public function __construct(array $controllersCollection = [])
@@ -36,7 +35,7 @@ class ControllerResolver implements ControllerResolverInterface
                 return $controller;
             }
 
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Controller "%s" for URI "%s" is not callable.',
                     get_class($controller),
@@ -55,7 +54,7 @@ class ControllerResolver implements ControllerResolverInterface
                 }
             }
 
-            throw new \Exception(
+            throw new Exception(
                 "Could not resolve controller '{$controller}'",
                 500
             );
@@ -69,14 +68,14 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @param string $controller A Controller string
      *
-     * @return array A PHP callable array with object and method
+     * @throws InvalidArgumentException
      *
-     * @throws \InvalidArgumentException
+     * @return array A PHP callable array with object and method
      */
     private function createController(string $controller): array
     {
         if (false === strpos($controller, '::')) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Unable to find controller "%s".', $controller),
                 500
             );
@@ -85,14 +84,14 @@ class ControllerResolver implements ControllerResolverInterface
         [$class, $method] = explode('::', $controller, 2);
 
         if (!class_exists($class)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Class "%s" does not exist.', $class),
                 500
             );
         }
 
         if (!isset($this->controllersCollection[$class])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Could not resolve controller '{$class}'",
                 500
             );

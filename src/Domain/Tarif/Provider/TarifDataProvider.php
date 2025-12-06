@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Provider;
-
 
 use App\Domain\Service\Entity\Service;
 use App\Domain\Tarif\Entity\Tarif;
 use App\Domain\Tarif\Entity\TarifGroup;
 use App\Domain\Tarif\Mapper\TarifMapperInterface;
 use App\Domain\User\Entity\User;
+use Generator;
+use PDO;
 
 class TarifDataProvider implements TarifDataProviderInterface
 {
-    /**
-     * @var \PDO
-     */
+    /** @var PDO */
     private $db;
-    /**
-     * @var TarifMapperInterface
-     */
+
+    /** @var TarifMapperInterface */
     private $tarifMapper;
 
-    public function __construct(\PDO $db, TarifMapperInterface $tarifMapper)
+    public function __construct(PDO $db, TarifMapperInterface $tarifMapper)
     {
         $this->db = $db;
         $this->tarifMapper = $tarifMapper;
@@ -32,17 +31,17 @@ class TarifDataProvider implements TarifDataProviderInterface
      */
     public function fetchByUserAndService(User $user, Service $service): ?Tarif
     {
-        $sql =<<<SQL
-SELECT t.* FROM tarifs t
-JOIN services s ON t.ID = s.tarif_id
-WHERE s.ID = :serviceId AND s.user_id = :userId
-SQL;
+        $sql = <<<'SQL'
+            SELECT t.* FROM tarifs t
+            JOIN services s ON t.ID = s.tarif_id
+            WHERE s.ID = :serviceId AND s.user_id = :userId
+            SQL;
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':serviceId', $service->getId(), \PDO::PARAM_INT);
-        $stmt->bindValue(':userId', $user->getId(), \PDO::PARAM_INT);
+        $stmt->bindValue(':serviceId', $service->getId(), PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $user->getId(), PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
             return null;
@@ -57,18 +56,18 @@ SQL;
     /**
      * @inheritDoc
      */
-    public function fetchGroupByGroupId(int $groupId): \Generator
+    public function fetchGroupByGroupId(int $groupId): Generator
     {
-        $sql =<<<SQL
-SELECT * FROM tarifs
-WHERE tarif_group_id = :id
-SQL;
+        $sql = <<<'SQL'
+            SELECT * FROM tarifs
+            WHERE tarif_group_id = :id
+            SQL;
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $groupId, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $groupId, PDO::PARAM_INT);
         $stmt->execute();
 
-        while ($result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
             yield $this->tarifMapper->mapToObject($result);
         }
     }
@@ -78,15 +77,15 @@ SQL;
      */
     public function fetchById(int $id): ?Tarif
     {
-        $sql =<<<SQL
-SELECT * FROM tarifs
-WHERE ID = :id
-SQL;
+        $sql = <<<'SQL'
+            SELECT * FROM tarifs
+            WHERE ID = :id
+            SQL;
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
             return null;

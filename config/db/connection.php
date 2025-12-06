@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require __DIR__ . '/db_cfg.php';
 
 return [
@@ -10,6 +12,6 @@ return [
         'user' => DB_USER,
         'password' => DB_PASSWORD,
         'dbname' => DB_NAME,
-        'charset' => 'cp1251'
+        'charset' => 'cp1251',
     ],
 ];

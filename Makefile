@@ -23,6 +23,14 @@ composer-install:
 	$(MAKE) check-image
 	$(DOCKER_RUN) $(DOCKER_IMG_NAME) sh -c "composer install --prefer-dist --no-interaction"
 
+csfixer-lint:
+	$(MAKE) check-image
+	$(DOCKER_RUN) $(DOCKER_IMG_NAME) sh -c "composer run csfixer-lint"
+
+csfixer-fix:
+	$(MAKE) check-image
+	$(DOCKER_RUN) $(DOCKER_IMG_NAME) sh -c "composer run csfixer-fix"
+
 run:
 	$(MAKE) check-image
 	$(DOCKER_RUN) -p 8000:8000 $(DOCKER_IMG_NAME)

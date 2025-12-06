@@ -1,34 +1,17 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
-
 class JsonResponse
 {
-    /**
-     * @var string
-     */
-    private $data;
-    /**
-     * @var int
-     */
-    private $responseCode;
-    /**
-     * @var string
-     */
-    private $statusText;
-    /**
-     * @var string
-     */
-    private $version = '1.1';
-
     /**
      * Status codes translation table.
      *
      * @var array
      */
-    public static $statusTexts = array(
+    public static $statusTexts = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
@@ -89,7 +72,19 @@ class JsonResponse
         508 => 'Loop Detected',
         510 => 'Not Extended',
         511 => 'Network Authentication Required',
-    );
+    ];
+
+    /** @var string */
+    private $data;
+
+    /** @var int */
+    private $responseCode;
+
+    /** @var string */
+    private $statusText;
+
+    /** @var string */
+    private $version = '1.1';
 
     public function __construct($data = null, $responseCode = 200)
     {
@@ -99,7 +94,7 @@ class JsonResponse
 
         $this->data = json_encode(
             $data,
-            JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
         $this->responseCode = $responseCode;
         $this->statusText = self::$statusTexts[$responseCode];

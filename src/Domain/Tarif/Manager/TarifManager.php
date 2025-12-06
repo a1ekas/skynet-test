@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Manager;
-
 
 use App\Domain\Service\Entity\Service;
 use App\Domain\Tarif\Entity\Tarif;
@@ -11,9 +11,7 @@ use App\Domain\User\Entity\User;
 
 class TarifManager implements TarifManagerInterface
 {
-    /**
-     * @var TarifDataProviderInterface
-     */
+    /** @var TarifDataProviderInterface */
     private $tarifDataProvider;
 
     public function __construct(TarifDataProviderInterface $tarifDataProvider)

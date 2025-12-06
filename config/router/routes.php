@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Domain\Tarif\Controller\Action\GetUsersServicesTarifsAction;
 use App\Domain\Tarif\Controller\Action\PutUsersServicesTarifsAction;
 
@@ -12,7 +14,7 @@ return [
                 'user_id' => '\d+',
                 'service_id' => '\d+',
             ],
-            'controller' => GetUsersServicesTarifsAction::class
+            'controller' => GetUsersServicesTarifsAction::class,
         ],
         [
             'method' => 'PUT',
@@ -21,7 +23,7 @@ return [
                 'user_id' => '\d+',
                 'service_id' => '\d+',
             ],
-            'controller' => PutUsersServicesTarifsAction::class
+            'controller' => PutUsersServicesTarifsAction::class,
         ],
-    ]
+    ],
 ];

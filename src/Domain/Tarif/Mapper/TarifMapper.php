@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Mapper;
-
 
 use App\Domain\Behavior\AssertableBehavior;
 use App\Domain\Tarif\Entity\Tarif;
@@ -17,7 +17,7 @@ class TarifMapper implements TarifMapperInterface
      */
     public function mapToObject(array $rawData): Tarif
     {
-//        $this->assertKeyExists('title', $rawData);
+        //        $this->assertKeyExists('title', $rawData);
         $this->assertKeyExists('price', $rawData);
         $this->assertKeyExists('speed', $rawData);
         $this->assertKeyExists('pay_period', $rawData);
@@ -26,16 +26,16 @@ class TarifMapper implements TarifMapperInterface
 
         $tarif = new Tarif(
             iconv('CP1251', 'UTF-8', $rawData['title']),
-            (float)$rawData['price'],
-            (int)$rawData['speed']
+            (float) $rawData['price'],
+            (int) $rawData['speed']
         );
 
         if (array_key_exists('ID', $rawData)) {
-            $tarif->setId((int)$rawData['ID']);
+            $tarif->setId((int) $rawData['ID']);
         }
 
-        $tarif->setPayPeriod((int)$rawData['pay_period']);
-        $tarif->setTarifGroupId((int)$rawData['tarif_group_id']);
+        $tarif->setPayPeriod((int) $rawData['pay_period']);
+        $tarif->setTarifGroupId((int) $rawData['tarif_group_id']);
         $tarif->setLink($rawData['link']);
 
         if (array_key_exists('tarifs', $rawData)) {

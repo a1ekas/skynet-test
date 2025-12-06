@@ -6,3 +6,4 @@ vendor/
 .git/
 .github/
 bin/
+.php-cs-fix-src.cache

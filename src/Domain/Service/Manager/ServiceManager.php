@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Service\Manager;
-
 
 use App\Domain\Service\Entity\Service;
 use App\Domain\Service\Provider\ServiceDataProviderInterface;
 use App\Domain\Tarif\Entity\Tarif;
 use App\Domain\User\Entity\User;
+use DateInterval;
+use DateTime;
 
 class ServiceManager implements ServiceManagerInterface
 {
-    /**
-     * @var ServiceDataProviderInterface
-     */
+    /** @var ServiceDataProviderInterface */
     private $serviceDataProvider;
 
     public function __construct(ServiceDataProviderInterface $serviceDataProvider)
@@ -35,12 +35,10 @@ class ServiceManager implements ServiceManagerInterface
     public function setTarif(Service $service, Tarif $tarif): void
     {
         $service->setTarifId($tarif->getId());
-        $payDay = new \DateTime();
-        $payDay->add(new \DateInterval('P'.$tarif->getPayPeriod().'M'));
+        $payDay = new DateTime();
+        $payDay->add(new DateInterval('P' . $tarif->getPayPeriod() . 'M'));
         $service->setPayDay($payDay);
 
         $this->serviceDataProvider->save($service);
     }
-
-
 }

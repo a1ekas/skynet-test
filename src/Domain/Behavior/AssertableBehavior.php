@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Behavior;
 
+use Exception;
 
 trait AssertableBehavior
 {
     /**
      * @param string $key
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function assertKeyExists(string $key, array $data): void
     {
@@ -16,8 +19,8 @@ trait AssertableBehavior
             return;
         }
 
-        throw new \Exception(
-            sprintf("Identifier \"%s\" is not defined.", $key),
+        throw new Exception(
+            sprintf('Identifier "%s" is not defined.', $key),
             500
         );
     }

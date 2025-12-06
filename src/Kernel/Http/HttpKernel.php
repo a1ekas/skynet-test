@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
-
 use App\Kernel\Http\Service\ControllerResolverInterface;
+use Exception;
 
 class HttpKernel implements HttpKernelInterface
 {
-    /**
-     * @var RouterInterface
-     */
+    /** @var RouterInterface */
     private $router;
-    /**
-     * @var ControllerResolverInterface
-     */
+
+    /** @var ControllerResolverInterface */
     private $resolver;
 
     public function __construct(
@@ -32,13 +30,13 @@ class HttpKernel implements HttpKernelInterface
     {
         try {
             if (!$request->isJson()) {
-                throw new \Exception('Acceptable only JSON request', 400);
+                throw new Exception('Acceptable only JSON request', 400);
             }
 
             [$route, $params] = $this->router->process($request);
             $controller = $this->resolver->getController($route, $request);
             $response = call_user_func_array($controller, $params);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response = $this->handleException($e, $request);
         }
 
@@ -46,15 +44,16 @@ class HttpKernel implements HttpKernelInterface
     }
 
     /**
-     * @param \Exception $e
+     * @param Exception $e
      * @param Request $request
+     *
      * @return JsonResponse
      */
-    private function handleException(\Exception $e, Request $request): JsonResponse
+    private function handleException(Exception $e, Request $request): JsonResponse
     {
         return new JsonResponse(['error' => [
             'message' => $e->getMessage(),
-            'code' => $e->getCode()
+            'code' => $e->getCode(),
         ]], $e->getCode());
     }
 }

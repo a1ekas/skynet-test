@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
 
-
 class Route
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $pattern;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $method;
-    /**
-     * @var string|object|callable
-     */
+
+    /** @var callable|object|string */
     private $controller;
-    /**
-     * @var array
-     */
+
+    /** @var array */
     private $requirements;
 
     public function __construct(

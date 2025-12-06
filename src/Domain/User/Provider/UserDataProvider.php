@@ -1,24 +1,22 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\User\Provider;
 
-
 use App\Domain\User\Entity\User;
 use App\Domain\User\Mapper\UserMapperInterface;
+use PDO;
 
 class UserDataProvider implements UserDataProviderInterface
 {
-    /**
-     * @var \PDO
-     */
+    /** @var PDO */
     private $db;
-    /**
-     * @var UserMapperInterface
-     */
+
+    /** @var UserMapperInterface */
     private $userMapper;
 
-    public function __construct(\PDO $db, UserMapperInterface $userMapper)
+    public function __construct(PDO $db, UserMapperInterface $userMapper)
     {
         $this->db = $db;
         $this->userMapper = $userMapper;
@@ -29,14 +27,14 @@ class UserDataProvider implements UserDataProviderInterface
      */
     public function fetchUserById(int $id): ?User
     {
-        $sql =<<<SQL
-SELECT * FROM users
-WHERE id = :id
-SQL;
+        $sql = <<<'SQL'
+            SELECT * FROM users
+            WHERE id = :id
+            SQL;
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
             return null;

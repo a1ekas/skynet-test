@@ -1,28 +1,25 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Controller\Action;
-
 
 use App\Domain\Service\Manager\ServiceManagerInterface;
 use App\Domain\Tarif\Manager\TarifManagerInterface;
 use App\Domain\User\Manager\UserManagerInterface;
 use App\Kernel\Http\JsonResponse;
 use App\Kernel\Http\Request;
+use Exception;
 
 class GetUsersServicesTarifsAction
 {
-    /**
-     * @var UserManagerInterface
-     */
+    /** @var UserManagerInterface */
     private $userManager;
-    /**
-     * @var ServiceManagerInterface
-     */
+
+    /** @var ServiceManagerInterface */
     private $serviceManager;
-    /**
-     * @var TarifManagerInterface
-     */
+
+    /** @var TarifManagerInterface */
     private $tarifManager;
 
     public function __construct(
@@ -39,6 +36,7 @@ class GetUsersServicesTarifsAction
      * @param Request $request
      * @param int $userId
      * @param int $serviceId
+     *
      * @return JsonResponse
      */
     public function __invoke(
@@ -48,15 +46,15 @@ class GetUsersServicesTarifsAction
     ): JsonResponse {
         try {
             if (!$user = $this->userManager->getUserById($userId)) {
-                throw new \Exception('User not found', 404);
+                throw new Exception('User not found', 404);
             }
 
             if (!$service = $this->serviceManager->getServiceByUserAndId($user, $userId)) {
-                throw new \Exception('User service not found', 404);
+                throw new Exception('User service not found', 404);
             }
 
             if (!$tarif = $this->tarifManager->getTarifByUserAndService($user, $service)) {
-                throw new \Exception('Tariff not found', 404);
+                throw new Exception('Tariff not found', 404);
             }
 
             return new JsonResponse(
@@ -65,14 +63,14 @@ class GetUsersServicesTarifsAction
                     'tarifs' => $tarif->toArray(true),
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse(
                 [
                     'result' => 'error',
                     'error' => [
                         'message' => $e->getMessage(),
-                        'code' => $e->getCode()
-                    ]
+                        'code' => $e->getCode(),
+                    ],
                 ],
                 $e->getCode()
             );

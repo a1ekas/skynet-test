@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Provider;
-
 
 use App\Application;
 
@@ -11,7 +11,5 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * @inheritDoc
      */
-    public function register(Application $app): void
-    {
-    }
+    public function register(Application $app): void {}
 }

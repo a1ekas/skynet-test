@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Provider;
 
@@ -34,7 +35,7 @@ class TarifsControllerServiceProvider implements ServiceProviderInterface
             );
         };
 
-        //This collection is for invokable controllers or actions
+        // This collection is for invokable controllers or actions
         $app->extend('controllers_collection', function (array $controllers, $app) {
             return array_merge(
                 $controllers,

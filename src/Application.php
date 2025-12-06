@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App;
-
 
 use App\Kernel\Http\HttpKernel;
 use App\Kernel\Http\JsonResponse;
@@ -12,12 +12,13 @@ use App\Kernel\Http\Service\ControllerResolver;
 use App\Kernel\Http\Service\RouteBuilder;
 use App\Kernel\Http\Service\UrlMatcher;
 use App\Kernel\Provider\ServiceProviderInterface;
+use ArrayAccess;
+use Closure;
+use InvalidArgumentException;
 
-class Application implements \ArrayAccess
+class Application implements ArrayAccess
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $container = [];
 
     public function __construct(array $params = [])
@@ -68,6 +69,7 @@ class Application implements \ArrayAccess
     public function run()
     {
         $request = Request::fromGlobals();
+
         /** @var JsonResponse $response */
         $response = $this[HttpKernel::class]->handle($request);
         $response->send();
@@ -75,6 +77,7 @@ class Application implements \ArrayAccess
 
     /**
      * Registers a service provider.
+     *
      * @param ServiceProviderInterface $provider
      */
     public function register(ServiceProviderInterface $provider)
@@ -91,22 +94,22 @@ class Application implements \ArrayAccess
      * @param string $id
      * @param callable $callable A service definition to extend the original
      *
-     * @return \Closure
+     * @throws InvalidArgumentException
      *
-     * @throws \InvalidArgumentException
+     * @return Closure
      */
     public function extend($id, $callable)
     {
         if (!array_key_exists($id, $this->container)) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
+            throw new InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
         if (!is_object($this->container[$id]) || !method_exists($this->container[$id], '__invoke')) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
+            throw new InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
         }
 
         if (!is_object($callable) || !method_exists($callable, '__invoke')) {
-            throw new \InvalidArgumentException('Extension service definition is not a Closure or invokable object.');
+            throw new InvalidArgumentException('Extension service definition is not a Closure or invokable object.');
         }
 
         $factory = $this->container[$id];
@@ -119,7 +122,7 @@ class Application implements \ArrayAccess
     /**
      * @inheritDoc
      */
-    public function offsetExists($id)
+    public function offsetExists($id): bool
     {
         return array_key_exists($id, $this->container);
     }
@@ -127,10 +130,10 @@ class Application implements \ArrayAccess
     /**
      * @inheritDoc
      */
-    public function offsetGet($id)
+    public function offsetGet($id): mixed
     {
         if (!array_key_exists($id, $this->container)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Identifier "%s" is not defined.', $id)
             );
         }
@@ -146,7 +149,7 @@ class Application implements \ArrayAccess
     /**
      * @inheritDoc
      */
-    public function offsetSet($id, $value)
+    public function offsetSet($id, $value): void
     {
         $this->container[$id] = $value;
     }
@@ -154,7 +157,7 @@ class Application implements \ArrayAccess
     /**
      * @inheritDoc
      */
-    public function offsetUnset($id)
+    public function offsetUnset($id): void
     {
         unset($this->container[$id]);
     }

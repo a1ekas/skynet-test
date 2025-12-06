@@ -1,25 +1,23 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Service\Provider;
-
 
 use App\Domain\Service\Entity\Service;
 use App\Domain\Service\Mapper\ServiceMapperInterface;
 use App\Domain\User\Entity\User;
+use PDO;
 
 class ServiceDataProvider implements ServiceDataProviderInterface
 {
-    /**
-     * @var \PDO
-     */
+    /** @var PDO */
     private $db;
-    /**
-     * @var ServiceMapperInterface
-     */
+
+    /** @var ServiceMapperInterface */
     private $serviceMapper;
 
-    public function __construct(\PDO $db, ServiceMapperInterface $serviceMapper)
+    public function __construct(PDO $db, ServiceMapperInterface $serviceMapper)
     {
         $this->db = $db;
         $this->serviceMapper = $serviceMapper;
@@ -30,15 +28,15 @@ class ServiceDataProvider implements ServiceDataProviderInterface
      */
     public function fetchServiceByUserAndId(User $user, int $id): ?Service
     {
-        $sql =<<<SQL
-SELECT * FROM services
-WHERE ID = :id AND user_id = :userId;
-SQL;
+        $sql = <<<'SQL'
+            SELECT * FROM services
+            WHERE ID = :id AND user_id = :userId;
+            SQL;
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
-        $stmt->bindValue(':userId', $user->getId(), \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $user->getId(), PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
             return null;

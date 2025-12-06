@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Provider;
 
-
 use App\Application;
+use PDO;
 
 class DatabaseServiceProvider implements ServiceProviderInterface
 {
@@ -14,7 +15,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
     public function register(Application $app): void
     {
         $app['db'] = function ($app) {
-            return new \PDO(
+            return new PDO(
                 $this->constructPdoDsn($app['db.options']),
                 $app['db.options']['user'],
                 $app['db.options']['password']
@@ -24,6 +25,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 
     /**
      * @param array $params
+     *
      * @return string
      */
     protected function constructPdoDsn(array $params): string
@@ -42,7 +44,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             $dsn .= 'charset=' . $params['charset'] . ';';
         }
 
-//        var_dump($params['user']);die;
+        //        var_dump($params['user']);die;
 
         return $dsn;
     }

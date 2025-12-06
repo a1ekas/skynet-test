@@ -1,29 +1,25 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Controller\Action;
-
 
 use App\Domain\Service\Manager\ServiceManagerInterface;
 use App\Domain\Tarif\Manager\TarifManagerInterface;
 use App\Domain\User\Manager\UserManagerInterface;
 use App\Kernel\Http\JsonResponse;
 use App\Kernel\Http\Request;
+use Exception;
 
 class PutUsersServicesTarifsAction
 {
-
-    /**
-     * @var UserManagerInterface
-     */
+    /** @var UserManagerInterface */
     private $userManager;
-    /**
-     * @var ServiceManagerInterface
-     */
+
+    /** @var ServiceManagerInterface */
     private $serviceManager;
-    /**
-     * @var TarifManagerInterface
-     */
+
+    /** @var TarifManagerInterface */
     private $tarifManager;
 
     public function __construct(
@@ -40,6 +36,7 @@ class PutUsersServicesTarifsAction
      * @param Request $request
      * @param int $userId
      * @param int $serviceId
+     *
      * @return JsonResponse
      */
     public function __invoke(
@@ -51,23 +48,23 @@ class PutUsersServicesTarifsAction
             $data = json_decode($request->getContent(), true);
 
             if (empty($data)) {
-                throw new \Exception('Not found required request data', 400);
+                throw new Exception('Not found required request data', 400);
             }
 
             if (empty($data['tarif_id'])) {
-                throw new \Exception('Not found required request data', 400);
+                throw new Exception('Not found required request data', 400);
             }
 
             if (!$user = $this->userManager->getUserById($userId)) {
-                throw new \Exception('User not found', 404);
+                throw new Exception('User not found', 404);
             }
 
             if (!$service = $this->serviceManager->getServiceByUserAndId($user, $userId)) {
-                throw new \Exception('User service not found', 404);
+                throw new Exception('User service not found', 404);
             }
 
-            if (!$tarif = $this->tarifManager->getTarifById((int)$data['tarif_id'])) {
-                throw new \Exception('Tarif not found', 404);
+            if (!$tarif = $this->tarifManager->getTarifById((int) $data['tarif_id'])) {
+                throw new Exception('Tarif not found', 404);
             }
 
             $this->serviceManager->setTarif($service, $tarif);
@@ -77,14 +74,14 @@ class PutUsersServicesTarifsAction
                     'result' => 'ok',
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse(
                 [
                     'result' => 'error',
                     'error' => [
                         'message' => $e->getMessage(),
-                        'code' => $e->getCode()
-                    ]
+                        'code' => $e->getCode(),
+                    ],
                 ],
                 $e->getCode()
             );

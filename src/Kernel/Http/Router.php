@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http;
-
 
 use App\Kernel\Http\Service\UrlMatcherInterface;
 
 class Router implements RouterInterface
 {
-    /**
-     * @var UrlMatcherInterface
-     */
+    /** @var UrlMatcherInterface */
     private $urlMatcher;
 
     public function __construct(UrlMatcherInterface $urlMatcher)

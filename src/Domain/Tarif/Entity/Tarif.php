@@ -1,42 +1,36 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Entity;
 
+use DateInterval;
+use DateTime;
 
 class Tarif
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $title;
-    /**
-     * @var float
-     */
+
+    /** @var float */
     private $price;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $speed;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $link;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $payPeriod;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $tarifGroupId;
-    /**
-     * @var TarifGroup
-     */
+
+    /** @var TarifGroup */
     private $tarifGroup;
 
     public function __construct(string $title, float $price, int $speed)
@@ -181,23 +175,22 @@ class Tarif
                 'title' => $this->title,
                 'link' => $this->link,
                 'speed' => $this->speed,
-                'tarifs' => $this->tarifGroup->toArray()
-            ];
-        } else {
-            $newPayDay = new \DateTime();
-            $newPayDay->setTime(0,0,0);
-            $newPayDay->add(new \DateInterval('P'.$this->payPeriod.'M'));
-            $tzOffsetString = $newPayDay->format('P');
-            $tzPrefix = str_replace(':', '', $tzOffsetString);
-            return [
-                'ID' => $this->id,
-                'title' => $this->title,
-                'price' => $this->price,
-                'pay_period' => $this->payPeriod,
-                'new_payday' => $newPayDay->getTimestamp() . $tzPrefix,
-                'speed' => $this->speed,
-
+                'tarifs' => $this->tarifGroup->toArray(),
             ];
         }
+        $newPayDay = new DateTime();
+        $newPayDay->setTime(0, 0, 0);
+        $newPayDay->add(new DateInterval('P' . $this->payPeriod . 'M'));
+        $tzOffsetString = $newPayDay->format('P');
+        $tzPrefix = str_replace(':', '', $tzOffsetString);
+
+        return [
+            'ID' => $this->id,
+            'title' => $this->title,
+            'price' => $this->price,
+            'pay_period' => $this->payPeriod,
+            'new_payday' => $newPayDay->getTimestamp() . $tzPrefix,
+            'speed' => $this->speed,
+        ];
     }
 }

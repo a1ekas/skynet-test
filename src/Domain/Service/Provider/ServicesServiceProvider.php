@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Service\Provider;
-
 
 use App\Application;
 use App\Domain\Service\Manager\ServiceManager;

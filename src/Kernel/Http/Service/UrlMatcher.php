@@ -1,17 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Kernel\Http\Service;
 
-
 use App\Kernel\Http\Request;
 use App\Kernel\Http\Route;
+use Exception;
 
 class UrlMatcher implements UrlMatcherInterface
 {
-    /**
-     * @var Route[]
-     */
+    /** @var Route[] */
     private $routes;
 
     public function __construct(array $routes = [])
@@ -38,6 +37,7 @@ class UrlMatcher implements UrlMatcherInterface
 
             if ($route->getMethod() !== $request->getMethod()) {
                 $allowedMethods[] = $route->getMethod();
+
                 continue;
             }
 
@@ -53,7 +53,7 @@ class UrlMatcher implements UrlMatcherInterface
         }
 
         if (0 < count($allowedMethods)) {
-            throw new \Exception(
+            throw new Exception(
                 sprintf(
                     "No route found for '%s %s': Method Not Allowed (Allow: %s)",
                     $request->getMethod(),
@@ -62,12 +62,12 @@ class UrlMatcher implements UrlMatcherInterface
                 ),
                 405
             );
-        } else {
-            throw new \Exception(
-                "Route for path '{$request->getPathInfo()}' not found",
-                404
-            );
         }
+
+        throw new Exception(
+            "Route for path '{$request->getPathInfo()}' not found",
+            404
+        );
     }
 
     /**

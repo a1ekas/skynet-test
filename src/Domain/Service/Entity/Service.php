@@ -1,29 +1,23 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Service\Entity;
 
-
-use App\Domain\Tarif\Entity\Tarif;
-use App\Domain\User\Entity\User;
+use DateTimeInterface;
 
 class Service
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $userId;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $tarifId;
-    /**
-     * @var \DateTimeInterface
-     */
+
+    /** @var DateTimeInterface */
     private $payDay;
 
     /**
@@ -75,17 +69,17 @@ class Service
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
-    public function getPayDay(): \DateTimeInterface
+    public function getPayDay(): DateTimeInterface
     {
         return $this->payDay;
     }
 
     /**
-     * @param \DateTimeInterface $payDay
+     * @param DateTimeInterface $payDay
      */
-    public function setPayDay(\DateTimeInterface $payDay): void
+    public function setPayDay(DateTimeInterface $payDay): void
     {
         $this->payDay = $payDay;
     }

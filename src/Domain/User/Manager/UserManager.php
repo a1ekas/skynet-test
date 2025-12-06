@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\User\Manager;
-
 
 use App\Domain\User\Entity\User;
 use App\Domain\User\Provider\UserDataProviderInterface;
 
 class UserManager implements UserManagerInterface
 {
-    /**
-     * @var UserDataProviderInterface
-     */
+    /** @var UserDataProviderInterface */
     private $userDataProvider;
 
     public function __construct(UserDataProviderInterface $userDataProvider)

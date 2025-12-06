@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Tarif\Mapper;
 
-
-use App\Domain\Service\Entity\Service;
 use App\Domain\Tarif\Entity\Tarif;
-use App\Domain\User\Entity\User;
+use Exception;
 
 interface TarifMapperInterface
 {
@@ -14,8 +13,10 @@ interface TarifMapperInterface
      * Converts database raw data to object
      *
      * @param array $rawData
+     *
+     * @throws Exception
+     *
      * @return Tarif
-     * @throws \Exception
      */
     public function mapToObject(array $rawData): Tarif;
 }

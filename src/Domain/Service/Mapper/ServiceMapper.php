@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Service\Mapper;
 
-
 use App\Domain\Behavior\AssertableBehavior;
 use App\Domain\Service\Entity\Service;
+use DateTimeImmutable;
 
 class ServiceMapper implements ServiceMapperInterface
 {
@@ -22,10 +23,10 @@ class ServiceMapper implements ServiceMapperInterface
         $this->assertKeyExists('payday', $rawData);
 
         $service = new Service();
-        $service->setId((int)$rawData['ID']);
-        $service->setUserId((int)$rawData['user_id']);
-        $service->setTarifId((int)$rawData['tarif_id']);
-        $service->setPayDay(new \DateTimeImmutable($rawData['payday']));
+        $service->setId((int) $rawData['ID']);
+        $service->setUserId((int) $rawData['user_id']);
+        $service->setTarifId((int) $rawData['tarif_id']);
+        $service->setPayDay(new DateTimeImmutable($rawData['payday']));
 
         return $service;
     }
