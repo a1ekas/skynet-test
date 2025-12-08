@@ -21,12 +21,6 @@
             "App\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/",
-            "App\\Rector\\": ".rector/src/"
-        }
-    },
     "config": {
         "platform": {
             "php": "8.4"
